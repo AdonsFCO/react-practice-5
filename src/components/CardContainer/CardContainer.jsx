@@ -4,11 +4,15 @@ import CardPokemon from "./Card/Card";
 const CardContainer = () => {
   return (
     <Grid container spacing={2}>
-      <Grid xs={3}>
-        <CardPokemon />
+      <Grid xs={2}>
+        <item>
+          <CardPokemon />
+        </item>
       </Grid>
       <Grid>
-        <CardPokemon />
+        <item>
+          <CardPokemon />
+        </item>
       </Grid>
     </Grid>
   );

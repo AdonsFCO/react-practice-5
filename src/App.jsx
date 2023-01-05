@@ -1,8 +1,14 @@
+
 import { useState } from "react";
 import CardContainer from "./components/CardContainer/CardContainer";
 
 const App = () => {
-  return(<CardContainer/>)
+
+
+  return (
+      <CardContainer />
+
+  );
 };
 
 export default App;
