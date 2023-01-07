@@ -12,7 +12,7 @@ const App = () => {
         main: "#0A285F",
       },
       secondary: {
-        main: "#0075BE",
+        main: "#ED1729",
       },
     },
   });
