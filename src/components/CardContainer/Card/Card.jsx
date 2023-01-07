@@ -8,7 +8,6 @@ const CardPokemon = ({ pokemonName = "ditto" }) => {
     
     <Card className="card" >
       <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png" />
-
       <CardContent>
         <Typography variant="h5">{pokemonName}</Typography>
       </CardContent>

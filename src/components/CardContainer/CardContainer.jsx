@@ -9,6 +9,7 @@ const CardContainer = () => {
       spacing={2}
       columns={{ sm: "auto", xs: "auto", md: "auto" }}
       columnSpacing={{ xs: 1, md: 3 }}
+      marginTop={"3em"}
     >
       <Grid item xs={2} md={2} sm={3}>
         <CardPokemon />

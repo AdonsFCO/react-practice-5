@@ -6,3 +6,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.card:hover{
+    background-color: #0075BE;
+    color: #FFCC00
+}
