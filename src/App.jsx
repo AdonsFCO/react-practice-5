@@ -1,9 +1,9 @@
+//Sample of a single pokemon 
 import DummyPokemon from "./DummyPokemon.json";
-
 //A sample of a multiple pokemon list
 import PokemonGroupDummy from "./PokemonGroupDummy.json";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardContainer from "./components/CardContainer/CardContainer";
 import { createTheme, duration, ThemeProvider } from "@mui/material/styles";
 import "@fontsource/roboto/500.css";
@@ -29,7 +29,7 @@ const App = () => {
 
   //This should be used on set effect.
   // Les suppose that we have a function that fetch a single pokemon and we got this information:
-
+useEffect( ()=>{
   function getFakeSinglePokemon(name) {
     //You should get this data from the fetch but for now let's use the dummy
 
@@ -48,6 +48,7 @@ const App = () => {
       return null;
     }
   }
+
   /*
 Pokemon image : sprites   
 height        : height
@@ -73,13 +74,18 @@ Statistics   : Stats
       data: getFakeSinglePokemon(pokemon.name),
     };
   });
-  console.log(tempList);
+
+
+  setPokemonList(tempList);
+
+},[]);
+console.log(pokemonList)
 
   return (
     <div className="App">
       <Header />
       <ThemeProvider theme={theme}>
-        <CardContainer className="cardContainer" />
+        <CardContainer className="cardContainer" pokemon={pokemonList}  />
       </ThemeProvider>
     </div>
   );
