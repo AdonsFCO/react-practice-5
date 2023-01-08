@@ -1,14 +1,6 @@
-import {
-  Dialog,
-  IconButton,
-  Typography,
-  Box,
-  paperClasses,
-  colors,
-} from "@mui/material";
+import { Dialog, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import ReactSkillbar, { SkillBar } from "react-skillbars";
-import { display } from "@mui/system";
+import { SkillBar } from "react-skillbars";
 
 const PokemonDialog = ({ dialogVisible, setDialog, pokemon }) => {
   const { statistics, height, weight, abilities, sprites } = pokemon.data;
