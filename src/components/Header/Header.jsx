@@ -11,7 +11,7 @@ const Header = () => {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", flexDirection: "row", marginLeft: "10px" }}>
-          <Typography  varaiant="h1"color={"#0075BE"} fontFamily ={"'Press Start 2P', cursive;"}>PokeAPP</Typography>
+          <Typography color={"#0075BE"} fontFamily ={"'Press Start 2P', cursive;"}>PokeAPP</Typography>
           <CatchingPokemonIcon style={{color:"ED1729"}}/>
         </div>
         <Searcher />

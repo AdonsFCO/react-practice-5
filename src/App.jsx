@@ -1,8 +1,3 @@
-//Sample of a single pokemon
-import DummyPokemon from "./DummyPokemon.json";
-//A sample of a multiple pokemon list
-import PokemonGroupDummy from "./PokemonGroupDummy.json";
-
 import { useEffect, useState } from "react";
 import CardContainer from "./components/CardContainer/CardContainer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
