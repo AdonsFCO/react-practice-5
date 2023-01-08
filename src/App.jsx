@@ -69,7 +69,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header />
+      <Header pokemonList={pokemonList} />
       <ThemeProvider theme={theme}>
         {pokemonList.length > 0 && (
           <CardContainer className="cardContainer" pokemonList={pokemonList} />

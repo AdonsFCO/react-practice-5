@@ -11,7 +11,6 @@ import ReactSkillbar, { SkillBar } from "react-skillbars";
 import { display } from "@mui/system";
 
 const PokemonDialog = ({ dialogVisible, setDialog, pokemon }) => {
-  console.log(pokemon.data);
   const { statistics, height, weight, abilities, sprites } = pokemon.data;
 
   function handleClose() {
@@ -24,7 +23,6 @@ const PokemonDialog = ({ dialogVisible, setDialog, pokemon }) => {
     return { type: Object.keys(stat)[0], level: stat[Object.keys(stat)[0]] };
   });
 
-  console.log(statisticsLevel);
   //Set colors
   const colorsBar = {
     bar: "#3B4CCA",
@@ -36,7 +34,13 @@ const PokemonDialog = ({ dialogVisible, setDialog, pokemon }) => {
 
   return (
     pokemon.data && (
-      <Dialog open={dialogVisible} scroll={"body"} fullScreen fullWidth>
+      <Dialog
+        open={dialogVisible}
+        scroll={"body"}
+        fullScreen
+        fullWidth
+        key={pokemon.data.name}
+      >
         <IconButton color="primary" onClick={handleClose} edge="end">
           <CloseIcon />
         </IconButton>

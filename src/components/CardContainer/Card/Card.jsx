@@ -8,7 +8,6 @@ const CardPokemon = ({ pokemon }) => {
   function handleClick() {
     setDialog(true);
   }
-  console.log(pokemon)
   return (
     pokemon.data && (
       <>
