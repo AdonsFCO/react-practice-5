@@ -9,6 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "@fontsource/roboto/500.css";
 import "./app.css";
 import Header from "./components/Header/Header";
+import axios from "axios";
 const App = () => {
   const theme = createTheme({
     palette: {
@@ -20,63 +21,58 @@ const App = () => {
       },
     },
   });
-
-  //This should be used on set effect.
-  //First we need to get the list of pokemon for testing proposes we are going to create from the dummy directory and not
-  //And not from fetching. The state should receive the list of pokemon
-
-  const [pokemonList, setPokemonList] = useState(PokemonGroupDummy.results);
-
+  const [pokemonList, setPokemonList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   //This should be used on set effect.
   // Les suppose that we have a function that fetch a single pokemon and we got this information:
   useEffect(() => {
-    function getFakeSinglePokemon(name) {
-      //You should get this data from the fetch but for now let's use the dummy
+    async function getPokemonList(offset = 0) {
+      const res = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=20`
+      );
+      const tempList = await Promise.all(
+        res.data.results.map(async (pokemon) => {
+          const data = await getSinglePokemon(pokemon.url);
+          return {
+            name: pokemon.name,
+            url: pokemon.url,
+            data: data,
+          };
+        })
+      );
+      setPokemonList(tempList);
+  
+    }
+    
+    getPokemonList(currentPage);
 
-      if (name === "ditto") {
-        return {
-          sprites: DummyPokemon.sprites,
-          height: DummyPokemon.height,
-          weight: DummyPokemon.weight,
-          abilities: DummyPokemon.abilities,
-          statistics: DummyPokemon.stats.map((stat) => {
+    function getSinglePokemon(url) {
+      return axios.get(url).then((pokemon) => {
+        const pokemonData = {
+          sprites: pokemon.data.sprites,
+          height: pokemon.data.height,
+          weight: pokemon.data.weight,
+          abilities: pokemon.data.abilities,
+          statistics: pokemon.data.stats.map((stat) => {
             return determineStat(stat.stat.name, stat.base_stat);
           }),
-
         };
-      } else {
-        return null;
-      }
+        return pokemonData;
+      });
     }
-
+    
     function determineStat(statName, statValue) {
       statName = statName.replace("-", "");
       return { [statName]: statValue };
     }
-
-    const tempList = pokemonList.map((pokemon) => {
-      return {
-        name: pokemon.name,
-        url: pokemon.url,
-        data: getFakeSinglePokemon(pokemon.name),
-      };
-    });
-
-    setPokemonList(tempList);
- 
   }, []);
-
-  //For now I will just pass ditto instead of the pokemon List state
 
   return (
     <div className="App">
       <Header />
       <ThemeProvider theme={theme}>
-        {pokemonList[1].data && (
-          <CardContainer
-            className="cardContainer"
-            pokemonList={[pokemonList[1]]}
-          />
+        {pokemonList.length > 0 && (
+          <CardContainer className="cardContainer" pokemonList={pokemonList} />
         )}
       </ThemeProvider>
     </div>

@@ -2,7 +2,6 @@ import { Grid } from "@mui/material";
 import CardPokemon from "./Card/Card";
 
 const CardContainer = ({ pokemonList }) => {
-
   return (
     <Grid
       justifyContent={"center"}
@@ -12,13 +11,14 @@ const CardContainer = ({ pokemonList }) => {
       columnSpacing={{ xs: 1, md: 3 }}
       marginTop={"3em"}
     >
-      {pokemonList.map((pokemon) => {
-        return (
-          <Grid item xs={2} md={2} sm={3} key={pokemon.name}>
-            <CardPokemon pokemon={pokemon}/>
-          </Grid>
-        );
-      })}
+      {pokemonList &&
+        pokemonList.map((pokemon) => {
+          return (
+            <Grid item xs={2} md={2} sm={3} key={pokemon.name}>
+              <CardPokemon pokemon={pokemon} />
+            </Grid>
+          );
+        })}
     </Grid>
   );
 };
