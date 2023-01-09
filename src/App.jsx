@@ -18,8 +18,6 @@ const App = () => {
   });
   const [pokemonList, setPokemonList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  //This should be used on set effect.
-  // Les suppose that we have a function that fetch a single pokemon and we got this information:
   useEffect(() => {
     async function getPokemonList(offset = 0) {
       const res = await axios.get(
@@ -64,7 +62,10 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header pokemonList={pokemonList} />
+      
+     {pokemonList.length > 0 && <Header pokemonList={pokemonList} setPokemonList={setPokemonList} />
+}
+
       <ThemeProvider theme={theme}>
         {pokemonList.length > 0 && (
           <CardContainer className="cardContainer" pokemonList={pokemonList} />
@@ -87,9 +88,4 @@ Statistics   : Stats
   Special Attack :  > base_stat
   Defense  : > base_stat 
   Speed    : > base stat
-
-
-
-
-
 */

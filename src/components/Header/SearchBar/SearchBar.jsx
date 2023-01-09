@@ -1,7 +1,9 @@
-import { Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-import { styled, alpha } from "@mui/material/styles";
+import { useState, useRef, useEffect } from "react";
+import { styled } from "@mui/material/styles";
+import axios from "axios";
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -46,15 +48,110 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Searcher = () => {
+const Searcher = ({ pokemonList, setPokemonList }) => {
+  const [currentSearch, setCurrenSearch] = useState("");
+  const originalPokemonList = useRef(pokemonList);
+   //To determine while the user is writing
+  const [keyboard, setKeyboard] = useState({
+      isWriting : false,
+      isDeleting: false,
+      searchOnline: false
+  });
+
+
+  //To determine while the user is writing
+  // let isWriting = useRef(false);
+  // let isDeleting = useRef(false);
+  // let searchOnline = useRef(false);
+
+  function getSinglePokemon(url) {
+    return axios
+      .get(url)
+      .then((pokemon) => {
+        const pokemonData = {
+          sprites: pokemon.data.sprites,
+          height: pokemon.data.height,
+          weight: pokemon.data.weight,
+          abilities: pokemon.data.abilities,
+          statistics: pokemon.data.stats.map((stat) => {
+            return determineStat(stat.stat.name, stat.base_stat);
+          }),
+        };
+        return pokemonData;
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+  }
+  useEffect(() => {
+
+    if (keyboard.searchOnline && !keyboard.isWriting && !keyboard.isDeleting) {
+      const searchedPokemon = getSinglePokemon(
+        `https://pokeapi.co/api/v2/pokemon/${currentSearch}`
+      );
+      setPokemonList([searchedPokemon])
+   
+    }
+  },[keyboard]);
+
+  function handleSearch({ target }) {
+    setCurrenSearch(target.value.trim());
+    pokemonList.map((currentSearchedPokemon) => {
+      if (currentSearchedPokemon.name.includes(currentSearch)) {
+        setKeyboard({...keyboard, searchOnline:false})
+        setPokemonList(
+          pokemonList.filter((pokemon) => pokemon.name.includes(currentSearch))
+        );
+
+      } else {
+       
+
+        if(originalPokemonList.current.filter((pokemon)=> pokemon.name.includes(currentSearch)).length > 0 && !keyboard.isWriting)
+        {
+        setKeyboard({...keyboard, searchOnline:true})
+        }
+      }
+    });
+    
+  }
+
+  //To determine while the user is writing
+  function startTimer() {
+    setTimeout(() => {
+      setKeyboard({...keyboard, isWriting:false})
+      console.log("is settet to false")
+    }, 2000);
+  }
+
+  // const stopTimer = () => {
+  //   clearInterval(interval);
+  // };
+
+  function handleKeys(event) {
+    setKeyboard({...keyboard, isWriting:true})
+    setKeyboard({...keyboard, isDeleting:false})
+    setKeyboard({...keyboard, searchOnline:false})
+    startTimer();
+    if (event.key === "Backspace") {
+      setPokemonList(originalPokemonList.current);
+      setKeyboard({...keyboard, isWriting:false})
+      setKeyboard({...keyboard, isDeleting:true})
+
+    }
+  }
   return (
     <Search>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Buscar..."
-        inputProps={{ "aria-label": "search" }} /*Remember to get data from Value */
+        placeholder="Catch it"
+        inputProps={{
+          "aria-label": "search",
+        }} /*Remember to get data from Value */
+        value={currentSearch}
+        onChange={handleSearch}
+        onKeyDown={handleKeys}
       />
     </Search>
   );
